@@ -1,0 +1,65 @@
+from pprint import pprint
+
+def triplets(listW):
+
+    res = []
+    for i in range(len(listW) - 2):
+        res.append((listW[i], listW[i+1], listW[i+2]))
+#    pprint(res)
+    
+    return res
+
+listWords = ["I", "love", "chocolate", "ice-cream", ".", "I", "really", "love", "chocolate", "ice-cream", "I", "might", "be", "addicted", "I", "might", "be", "addicted"]
+
+#triplets(listWords)
+
+def estimationProba(listW):
+    occurences = dict()
+    for triplet in listW:
+        #Si le triplet est dans les clés, on incrémente le compteur
+        if triplet in occurences.keys():
+            occurences[triplet] +=1
+        else :
+            occurences[triplet] = 1
+            
+    pprint(occurences)
+
+    # Apres avoir calcule le nb d'occurences de chaque element, on calcule la proba que cet element soit present si il est suivi des deux autres elements le precedent.
+    # Il faut egalement que la somme de toutes les proba soit 1
+
+
+    dict_doublets = {}
+    doublets = []
+    i = 0
+    for triplets in occurences :
+        dict_occurences = {}
+        doublets = (triplets[0], triplets[1])
+        if doublets not in dict_doublets :
+            dict_doublets[doublets] = {}
+        else :
+            val = triplets[2]
+            for values in dict_doublets:
+                if val not in values[i] :
+                    dict_doublets[doublets][val] = 1
+                else :
+                    dict_doublets[doublets][val] += 1 
+                
+                
+        #    dict_doublets[doublets] = (triplets[2], i)
+            #dict_occurences[triplets[2]] = i 
+            #dict_doublets[doublets] = dict_occurences
+            i+=1
+    for doublets in occurences :
+        print ("value du doublets dans occurence : " , doublets, "valeur de triplets[2] du doublets", triplets[2])
+       
+
+
+
+    for elements in dict_doublets :
+        print("\n dict_doublets = " , dict_doublets)
+        print ("-------------------------------------------------- \n element : ", elements, " value : ", dict_doublets[elements] , "\n --------------------------------------------")
+
+    return occurences
+
+estimationProba(triplets(listWords))      
+    
